@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 """
 Thomas Bolaji
-This script prints the first State object
-from the database `hbtn_0e_6_usa`.
+This script changes the name of a State object
+from the databae
 """
 
 from sys import argv
@@ -12,8 +12,7 @@ from sqlalchemy.orm import sessionmaker
 
 if __name__ == "__main__":
     """
-    Access the database, get a state
-    from the database.
+    Updates a State object on the database.
     """
 
     db_uri = 'mysql+mysqldb://{}:{}@localhost:3306/{}'.format(
@@ -22,9 +21,8 @@ if __name__ == "__main__":
     Session = sessionmaker(bind=engine)
 
     session = Session()
-    instance = session.query(State).order_by(State.id).first()
 
-    if instance is None:
-        print('None')
-    else:
-        print('{0}: {1}'.format(instance.id, instance.name))
+    ari_state = session.query(State).filter(State.id == '2').first()
+    ari_state.name = 'New Mexico'
+    session.commit()
+    session.close()
